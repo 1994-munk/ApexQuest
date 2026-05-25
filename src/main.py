@@ -9,6 +9,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from data_loader import load_all_data, clean_data
 from analysis import PlayerAnalyzer
+from visualization import PlayerVisualizer
 import pandas as pd
 
 
@@ -36,7 +37,7 @@ def main():
     analyzer = PlayerAnalyzer(df)
     
     # Generate reports
-    print("\n[4/5] Generating reports...")
+    print("\n[4/6] Generating reports...")
     os.makedirs('outputs', exist_ok=True)
     
     # Engagement stats
@@ -60,7 +61,7 @@ def main():
             print(segments.to_string())
     
     # Save summary
-    print("\n[5/5] Saving outputs...")
+    print("\n[5/6] Saving outputs...")
     summary_file = 'outputs/player_summary.txt'
     with open(summary_file, 'w') as f:
         f.write("ApexQuest Games - Player Analysis Report\n")
@@ -73,6 +74,12 @@ def main():
         f.write(analyzer.get_player_stats_summary().to_string())
     
     print(f"Report saved to: {summary_file}")
+    
+    # Generate visualizations
+    print("\n[6/6] Generating visualizations...")
+    visualizer = PlayerVisualizer(analyzer.df, 'outputs')
+    visualizer.generate_all_visualizations()
+    
     print("\n✓ Analysis complete!")
 
 
